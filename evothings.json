@@ -1,0 +1,23 @@
+{
+  "name": "marauders-map",
+  "version": "1.0",
+  "title": "Marauders Map",
+  "description": "Navigation aid for the visually impaired",
+  "tags": [
+    {
+      "label": "ble",
+      "type": "comm"
+    }
+  ],
+  "libraries": [
+    {
+      "name": "jquery",
+      "version": "2.1.1"
+    }
+  ],
+  "index-file": "view.html",
+  "app-dir": "app",
+  "uuid": "bb79c3b7-e79c-4610-97b7-e188eada715a",
+  "icon": "",
+  "doc-url": "https://evothings.com/2.1/doc/examples/lightbluebean-basic.html"
+}
