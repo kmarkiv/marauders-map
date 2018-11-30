@@ -78,9 +78,9 @@
         onResize()
     })
 
-   /* arToolkitSource.addEventListener('markerFound', function(event){
-               console.log("here");
-	});*/
+    /* arToolkitSource.addEventListener('markerFound', function(event){
+                console.log("here");
+     });*/
 
     function onResize() {
         arToolkitSource.onResize()
@@ -89,7 +89,7 @@
             arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)
         }
     }
-    
+
     function deteted() {
 
     }
@@ -110,8 +110,8 @@
         camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
     });
 
-    arToolkitContext.addEventListener('markerFound', function(event) {
-       // console.log("here");
+    arToolkitContext.addEventListener('markerFound', function (event) {
+        // console.log("here");
     });
 
     // update artoolkit on every frame
@@ -122,12 +122,16 @@
 
         // update scene.visible if the marker is seen
         scene.visible = camera.visible
-        if(scene.visible===true)
-        {
-           sound.play();
+        if (scene.visible === true) {
+           if (sound.isPlaying === false)
+                sound.play();
         }
         else {
-            sound.pause();
+
+          //  if (sound.isPlaying === true)
+               //  sound.pause();
+                if (sound.isPlaying === true)
+                 sound.stop();
         }
     })
 
@@ -142,7 +146,7 @@
         // patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
         // as we controls the camera, set changeMatrixMode: 'cameraTransformMatrix'
         changeMatrixMode: 'cameraTransformMatrix',
-        emitEvents:true,
+        emitEvents: true,
     })
     // as we do changeMatrixMode: 'cameraTransformMatrix', start with invisible scene
     scene.visible = false
@@ -179,11 +183,11 @@
 
     onRenderFcts.push(function (delta) {
         mesh.rotation.x += Math.PI * delta
-       // if(mesh.isVis)
+        // if(mesh.isVis)
 
-      //  if(document.querySelector("a-marker").object3D.visible == true){
-      //      console.log("visible");
-      //  }
+        //  if(document.querySelector("a-marker").object3D.visible == true){
+        //      console.log("visible");
+        //  }
 
     })
 
