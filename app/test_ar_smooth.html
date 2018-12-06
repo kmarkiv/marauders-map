@@ -99,7 +99,7 @@
 
         // create atToolkitContext
         arToolkitContext = new THREEx.ArToolkitContext({
-            cameraParametersUrl: 'data/cake.patt',
+            cameraParametersUrl: 'data/camera_para.dat',
             detectionMode: 'mono'
         });
 
@@ -126,7 +126,7 @@
 
         let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
             type: 'pattern',
-            patternUrl: "data/patt.hiro",
+            patternUrl: "data/patt.kanji",
         })
 
         // interpolates from last position to create smoother transitions when moving.
