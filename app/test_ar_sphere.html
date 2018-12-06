@@ -123,17 +123,17 @@
         // update scene.visible if the marker is seen
         scene.visible = camera.visible
         if (scene.visible === true) {
-           if (sound.isPlaying === false)
+            if (sound.isPlaying === false)
                 sound.play();
         }
         else {
 
-          //  if (sound.isPlaying === true)
-               //  sound.pause();
-                if (sound.isPlaying === true)
-                 sound.stop();
+            //  if (sound.isPlaying === true)
+            //  sound.pause();
+            if (sound.isPlaying === true)
+                sound.stop();
         }
-    })
+    });
 
     ////////////////////////////////////////////////////////////////////////////////
     //          Create a ArMarkerControls
@@ -176,9 +176,8 @@
     scene.add(mesh);
 
 
-
     onRenderFcts.push(function (delta) {
-       console.log(mesh.point);
+        console.log(mesh.point);
         // mesh.rotation.x += Math.PI * delta
         // if(mesh.isVis)
 
