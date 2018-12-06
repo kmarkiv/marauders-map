@@ -160,7 +160,7 @@
     var audioLoader = new THREE.AudioLoader();
     audioLoader.load('sounds/beep.wav', function (buffer) {
         sound.setBuffer(buffer);
-        sound.setRefDistance(20);
+        sound.setRefDistance(100);
 
     });
 
@@ -172,24 +172,21 @@
     });
     var mesh = new THREE.Mesh(geometry, material);
     mesh.position.y = geometry.parameters.height / 2;
-    scene.add(mesh);
     mesh.add(sound);
+    scene.add(mesh);
 
-    var geometry = new THREE.TorusKnotGeometry(0.3, 0.1, 64, 16);
-    var material = new THREE.MeshNormalMaterial();
-    var mesh = new THREE.Mesh(geometry, material);
-    mesh.position.y = 0.5;
-    //scene.add( mesh );
+
 
     onRenderFcts.push(function (delta) {
-        mesh.rotation.x += Math.PI * delta
+       console.log(mesh.point);
+        // mesh.rotation.x += Math.PI * delta
         // if(mesh.isVis)
 
         //  if(document.querySelector("a-marker").object3D.visible == true){
         //      console.log("visible");
         //  }
 
-    })
+    });
 
     //////////////////////////////////////////////////////////////////////////////////
     //		render the whole thing on the page
@@ -199,7 +196,7 @@
     onRenderFcts.push(function () {
         renderer.render(scene, camera);
 
-    })
+    });
 
     // run the rendering loop
     var lastTimeMsec = null
