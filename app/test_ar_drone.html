@@ -17,8 +17,9 @@
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 
-<video autoplay muted="muted" loop id="myVideo" >
-    <source src="images/drone.mp4" type="video/mp4">
+<video autoplay muted="muted" loop id="myVideo"loop crossOrigin="anonymous" webkit-playsinline style="display:none">
+			<source src="images/drone-vector-animated-gif.ogv" type='video/ogg; codecs="theora, vorbis"'>
+			<source src="images/drone.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
 </video>
 
 
@@ -211,7 +212,7 @@
 
             //console.log(markerRoot1.getWorldPosition())
             if (sound.isPlaying === false) {
-                 playDrone()
+                 //playDrone()
             }
             //play(markerRoot1.getWorldPosition().x);
         }
