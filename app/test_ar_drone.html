@@ -17,6 +17,11 @@
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 
+<video autoplay muted="muted" loop id="myVideo" style="visibility: hidden">
+    <source src="images/drone-vector-animated-gif.ogv" type="video/mp4">
+</video>
+
+
 <!--
   Example created by Lee Stemkoski: https://github.com/stemkoski
   Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
@@ -30,14 +35,41 @@
 
     var markerRoot1, markerRoot2, listener, materialTextured;
     var sound;
-    var mesh1;
+    var mesh1, videoImage, videoImageContext;
     var count = 0;
+    var updateFcts	= [];
+
+
+    var video = document.getElementById('myVideo');
+
+    var videoTexture = new THREE.VideoTexture(video);
+
+    videoTexture.minFilter = THREE.LinearFilter;
+    videoTexture.magFilter = THREE.LinearFilter;
+
+    var canPlayMp4	= document.createElement('video').canPlayType('video/mp4') !== '' ? true : false
+	var canPlayOgg	= document.createElement('video').canPlayType('video/ogg') !== '' ? true : false
+	if( canPlayMp4 ){
+		console.log("play video")
+	}
+	if( canPlayOgg ){
+		console.log("play audio")
+	}else	alert('cant play mp4 or ogv');
+
+
+	updateFcts.push(function(delta, now){
+		videoTexture.update(delta, now)
+	})
+
+
+
 
     initialize();
     animate();
 
     function initialize() {
         scene = new THREE.Scene();
+
 
         let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
         scene.add(ambientLight);
@@ -109,13 +141,6 @@
         });
 
 
-        var audioLoader = new THREE.AudioLoader();
-        audioLoader.load('sounds/beep.wav', function (buffer) {
-            sound.setBuffer(buffer);
-            sound.setRefDistance(100);
-
-        });
-
         ////////////////////////////////////////////////////////////
         // setup markerRoots
         ////////////////////////////////////////////////////////////
@@ -141,25 +166,29 @@
             // minUnvisibleDelay: 1,
         });
 
-        var audioLoader2 = new THREE.AudioLoader();
-        audioLoader.load('sounds/beep.wav', function (buffer) {
-        sound.setBuffer(buffer);
-        sound.setRefDistance(100);
 
+        var textureLoader = new THREE.TextureLoader().load(
+            'images/drone-vector-animated-gif.gif'
+        );
+
+        let geometry1 = new THREE.PlaneGeometry(1, 1, 1);
+
+        let materialTextured = new THREE.MeshBasicMaterial({
+            map	: videoTexture,
+             side: THREE.DoubleSide
         });
 
-        let geometry1 = new THREE.CubeGeometry(1, 1, 1);
-        let materialTextured = new MeshBasicMaterial( {
-        map: THREE.ImageUtils.loadTexture('images/drone-vector-animated-gif.gif')
-        });
-        let material1 = new THREE.MeshNormalMaterial({
-            transparent: true,
-            opacity: 0.5,
-            side: THREE.DoubleSide
-        });
+        const playPromise = video.play();
+        if (playPromise !== null) {
+            playPromise.catch(() => {
+                video.play();
+            })
+        }
+
 
         mesh1 = new THREE.Mesh(geometry1, materialTextured);
-        mesh1.position.y = 0.5;
+        mesh1.position.y = 0.1;
+        mesh1.rotation.x = -Math.PI / 2;
 
         // markerRoot1.add( mesh1 );
         smoothedRoot.add(sound);
@@ -176,12 +205,17 @@
         smoothedControls.update(markerRoot1);
 
         if (markerRoot1.visible === true) {
-            materialTextured.map.needsUpdate = true;
+           // materialTextured.map.texture.needsUpdate = true;
 
+            // materialTextured.map.needsUpdate = true;
+
+            //mesh1.material.map.needsUpdate = true;
 
             //console.log(markerRoot1.getWorldPosition())
-            if (sound.isPlaying === false)
-                play(markerRoot1.getWorldPosition().x);
+            if (sound.isPlaying === false) {
+                 playDrone()
+            }
+            //play(markerRoot1.getWorldPosition().x);
         }
         else {
 
@@ -191,6 +225,24 @@
                 stop();
         }
 
+    }
+
+    function playDrone() {
+
+        count += 1;
+
+        if (count % 30 == 0) {
+            var audio = "drone";
+
+            // load a sound and set it as the Audio object's buffer
+            var audioLoader = new THREE.AudioLoader();
+            audioLoader.load('sounds/' + audio + ".wav", function (buffer) {
+                sound.setBuffer(buffer);
+                sound.setLoop(false);
+                sound.setVolume(1.0);
+                sound.play();
+            });
+        }
     }
 
     function play(X) {
